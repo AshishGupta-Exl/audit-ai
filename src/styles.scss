@@ -1,0 +1,109 @@
+/* Global design tokens and base styles for the EXL platform front end. */
+
+@use 'styles/components';
+
+:root {
+  /* Brand */
+  --exl-orange: #fb4e0b;
+  --exl-orange-600: #e2440a;
+  --exl-orange-700: #c93a07;
+
+  /* Brand panel navy */
+  --navy-900: #0c2a3a;
+  --navy-800: #123449;
+  --navy-700: #17384b;
+  --navy-600: #1f4156;
+
+  /* Neutrals */
+  --ink-900: #2e3643;
+  --ink-700: #48505c;
+  --ink-600: #5c6674;
+  --ink-500: #6d727b;
+  --ink-400: #9a9fa7;
+  --ink-300: #c6c9ce;
+  --ink-200: #dddfe2;
+  --ink-100: #f2f3f5;
+  --ink-50: #f9fafa;
+  --surface: #ffffff;
+  --canvas: #f6f7f8;
+
+  /* Accent used for links and secondary actions */
+  --link-700: #005071;
+  --link-600: #00658d;
+
+  --info-50: #e6f6fb;
+  --info-200: #cde9f2;
+
+  --danger-700: #a32617;
+  --danger-600: #c62d1c;
+  --danger-50: #fdeeeb;
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(12, 42, 58, 0.06);
+  --shadow-md: 0 10px 28px rgba(12, 42, 58, 0.08);
+
+  --font-sans:
+    'Fira Sans Condensed', 'Fira Sans', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue',
+    Arial, sans-serif;
+  --font-display:
+    'Fira Sans Extra Condensed', 'Fira Sans Condensed', 'Fira Sans', 'Segoe UI', system-ui,
+    sans-serif;
+
+  --focus-ring: 0 0 0 3px rgba(0, 80, 113, 0.24);
+  --focus-ring-orange: 0 0 0 3px rgba(251, 78, 11, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--ink-900);
+  background: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--link-700);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--link-600);
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-radius: 2px;
+    box-shadow: var(--focus-ring);
+  }
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Visually hidden but available to assistive technology. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

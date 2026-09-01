@@ -1,0 +1,177 @@
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { Router, provideRouter } from '@angular/router';
+import { Observable, of, throwError } from 'rxjs';
+
+import { AUTH_GATEWAY, AuthGateway } from '../../../core/auth/auth.gateway';
+import { AuthError, LoginCredentials, LoginResult } from '../../../core/auth/auth.models';
+import { Login } from './login';
+
+class StubAuthGateway implements AuthGateway {
+  response: Observable<LoginResult> = of({
+    user: { id: '1', email: 'a.analyst@exlservice.com', displayName: 'Sample Auditor', roles: [] },
+    token: 'token',
+  });
+  lastCredentials: LoginCredentials | null = null;
+
+  authenticate(credentials: LoginCredentials): Observable<LoginResult> {
+    this.lastCredentials = credentials;
+    return this.response;
+  }
+}
+
+describe('Login', () => {
+  let fixture: ComponentFixture<Login>;
+  let gateway: StubAuthGateway;
+  let router: Router;
+
+  const query = <T extends HTMLElement>(selector: string): T =>
+    fixture.nativeElement.querySelector(selector) as T;
+
+  const fillForm = (email: string, password: string) => {
+    const emailInput = query<HTMLInputElement>('#email');
+    const passwordInput = query<HTMLInputElement>('#password');
+
+    emailInput.value = email;
+    emailInput.dispatchEvent(new Event('input'));
+    passwordInput.value = password;
+    passwordInput.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+  };
+
+  beforeEach(async () => {
+    gateway = new StubAuthGateway();
+    localStorage.clear();
+    sessionStorage.clear();
+
+    await TestBed.configureTestingModule({
+      imports: [Login],
+      providers: [provideRouter([]), { provide: AUTH_GATEWAY, useValue: gateway }],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(Login);
+    router = TestBed.inject(Router);
+    fixture.detectChanges();
+  });
+
+  it('renders the sign-in form', () => {
+    expect(query('h1').textContent).toContain('Sign in');
+    expect(query('#email')).toBeTruthy();
+    expect(query('#password')).toBeTruthy();
+  });
+
+  it('offers single sign-on alongside the email form', () => {
+    const sso = query<HTMLAnchorElement>('.login__sso');
+
+    expect(sso.textContent).toContain('Continue with Okta SSO');
+    expect(sso.getAttribute('href')).toBe('/sso');
+    expect(query('.login__divider').textContent).toContain('or sign in with email');
+  });
+
+  it('tells the user a one-time passcode follows', () => {
+    expect(query('.login__notice').textContent).toContain('one-time passcode');
+  });
+
+  it('keeps the user signed in by default', () => {
+    expect(query<HTMLInputElement>('.checkbox input').checked).toBeTrue();
+  });
+
+  it('does not call the gateway while the form is invalid', () => {
+    spyOn(gateway, 'authenticate').and.callThrough();
+
+    query<HTMLFormElement>('form').dispatchEvent(new Event('submit'));
+    fixture.detectChanges();
+
+    expect(gateway.authenticate).not.toHaveBeenCalled();
+  });
+
+  it('shows field errors after an invalid submit', () => {
+    query<HTMLFormElement>('form').dispatchEvent(new Event('submit'));
+    fixture.detectChanges();
+
+    const errors = fixture.nativeElement.querySelectorAll('.field__error');
+    expect(errors.length).toBe(2);
+    expect(errors[0].textContent).toContain('Enter your work email address.');
+    expect(errors[1].textContent).toContain('Enter your password.');
+  });
+
+  it('rejects a malformed email address', () => {
+    fillForm('not-an-email', 'Exl@2026!');
+    query<HTMLFormElement>('form').dispatchEvent(new Event('submit'));
+    fixture.detectChanges();
+
+    expect(query('#email-error').textContent).toContain('Enter a valid email address');
+  });
+
+  it('rejects a password shorter than eight characters', () => {
+    fillForm('a.analyst@exlservice.com', 'short');
+    query<HTMLFormElement>('form').dispatchEvent(new Event('submit'));
+    fixture.detectChanges();
+
+    expect(query('#password-error').textContent).toContain('at least 8 characters');
+  });
+
+  it('toggles password visibility', () => {
+    const toggle = query<HTMLButtonElement>('.field__reveal');
+    expect(query<HTMLInputElement>('#password').type).toBe('password');
+    expect(toggle.textContent?.trim()).toBe('Show');
+
+    toggle.click();
+    fixture.detectChanges();
+
+    expect(query<HTMLInputElement>('#password').type).toBe('text');
+    expect(toggle.textContent?.trim()).toBe('Hide');
+    expect(toggle.getAttribute('aria-label')).toBe('Hide password');
+  });
+
+  it('submits the entered credentials and navigates to the dashboard', fakeAsync(() => {
+    const navigate = spyOn(router, 'navigateByUrl').and.resolveTo(true);
+
+    fillForm('a.analyst@exlservice.com', 'Exl@2026!');
+    query<HTMLFormElement>('form').dispatchEvent(new Event('submit'));
+    tick();
+    fixture.detectChanges();
+
+    expect(gateway.lastCredentials).toEqual({
+      email: 'a.analyst@exlservice.com',
+      password: 'Exl@2026!',
+      rememberMe: true,
+    });
+    expect(navigate).toHaveBeenCalledWith('/dashboard');
+  }));
+
+  it('surfaces the gateway error message without navigating', fakeAsync(() => {
+    const navigate = spyOn(router, 'navigateByUrl').and.resolveTo(true);
+    gateway.response = throwError(() => new AuthError('invalid_credentials', 'Bad credentials.'));
+
+    fillForm('a.analyst@exlservice.com', 'Exl@2026!');
+    query<HTMLFormElement>('form').dispatchEvent(new Event('submit'));
+    tick();
+    fixture.detectChanges();
+
+    expect(query('[role="alert"]').textContent).toContain('Bad credentials.');
+    expect(navigate).not.toHaveBeenCalled();
+  }));
+
+  it('falls back to a generic message for unexpected failures', fakeAsync(() => {
+    gateway.response = throwError(() => new Error('boom'));
+
+    fillForm('a.analyst@exlservice.com', 'Exl@2026!');
+    query<HTMLFormElement>('form').dispatchEvent(new Event('submit'));
+    tick();
+    fixture.detectChanges();
+
+    expect(query('[role="alert"]').textContent).toContain('could not sign you in');
+  }));
+
+  it('re-enables the form after a failed attempt', fakeAsync(() => {
+    gateway.response = throwError(() => new AuthError('account_locked', 'Locked.'));
+
+    fillForm('a.analyst@exlservice.com', 'Exl@2026!');
+    query<HTMLFormElement>('form').dispatchEvent(new Event('submit'));
+    tick();
+    fixture.detectChanges();
+
+    expect(query<HTMLInputElement>('#email').disabled).toBeFalse();
+    expect(query<HTMLButtonElement>('button[type="submit"]').disabled).toBeFalse();
+  }));
+});
