@@ -5,7 +5,7 @@
 
 .login {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
   min-height: 100vh;
 }
 
@@ -15,103 +15,103 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  gap: 40px;
   justify-content: space-between;
-  gap: 48px;
-  padding: 56px 64px;
+  padding: 56px 48px 48px;
   overflow: hidden;
   color: #fff;
-  background: linear-gradient(
-    155deg,
-    var(--brand-900) 0%,
-    var(--brand-700) 55%,
-    var(--brand-600) 100%
-  );
+  background: linear-gradient(178deg, #21445a 0%, #17405a 55%, #0e4057 100%);
+  border-left: 3px solid var(--exl-orange);
 
-  /* Both glows are square boxes with the gradient fully faded before the box
-     edge, otherwise the clipped edge shows up as a hard seam. */
+  /* Faint dot field, strongest towards the top right of the panel. */
   &::before {
     position: absolute;
-    inset: -280px auto auto -240px;
-    width: 760px;
-    height: 760px;
+    inset: 0;
     content: '';
-    background: radial-gradient(circle, rgba(76, 133, 245, 0.42) 0%, rgba(76, 133, 245, 0) 62%);
+    background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+    background-size: 11px 11px;
+    -webkit-mask-image: radial-gradient(120% 105% at 100% 0%, #000 0%, transparent 62%);
+    mask-image: radial-gradient(120% 105% at 100% 0%, #000 0%, transparent 62%);
   }
 
+  /* Hexagon motif, anchored to the panel's vertical centre and clipped by the
+     panel edge the same way it is in the design. */
   &::after {
     position: absolute;
-    inset: auto -200px -280px auto;
-    width: 680px;
-    height: 680px;
+    top: 50%;
+    left: 56%;
+    width: clamp(300px, 32vw, 604px);
+    aspect-ratio: 1.1547;
     content: '';
-    background: radial-gradient(circle, rgba(45, 212, 191, 0.32) 0%, rgba(45, 212, 191, 0) 62%);
+    background: linear-gradient(155deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05));
+    clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+    transform: translateY(-50%);
   }
 }
 
-.login__brand-mark,
-.login__mobile-mark {
+.login__brand > * {
   position: relative;
   z-index: 1;
-  display: flex;
-  gap: 12px;
-  align-items: center;
 }
 
-.login__brand-glyph {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
+.login__wordmark {
+  margin: 0;
+  font-size: 15px;
   font-weight: 700;
-  color: #fff;
-  background: linear-gradient(140deg, var(--brand-400), var(--accent-500));
-  border-radius: 11px;
-  box-shadow: 0 6px 18px rgba(14, 165, 164, 0.35);
-}
-
-.login__brand-name {
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-
-  strong {
-    font-weight: 700;
-  }
+  letter-spacing: 0.16em;
 }
 
 .login__brand-copy {
-  position: relative;
-  z-index: 1;
-  max-width: 460px;
+  max-width: 380px;
+}
 
-  h2 {
-    margin: 0 0 16px;
-    font-size: clamp(30px, 3vw, 40px);
-    font-weight: 600;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-  }
+.login__eyebrow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--exl-orange);
+  text-transform: uppercase;
 
-  p {
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.6;
-    color: rgba(226, 236, 255, 0.82);
+  &::before {
+    width: 28px;
+    height: 2px;
+    content: '';
+    background: currentcolor;
   }
 }
 
-.login__highlights {
-  margin: 32px 0 0;
+.login__headline {
+  max-width: 6em;
+  margin: 14px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(38px, 3.3vw, 62px);
+  font-weight: 700;
+  line-height: 1.03;
+  letter-spacing: -0.005em;
+}
+
+.login__lede {
+  margin: 22px 0 0;
+  font-size: 20px;
+  line-height: 1.42;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.login__assurances {
+  margin: 36px 0 0;
   padding: 0;
   list-style: none;
 
   li {
     position: relative;
-    padding-left: 32px;
+    padding-left: 22px;
     font-size: 15px;
-    line-height: 1.5;
-    color: rgba(226, 236, 255, 0.92);
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.92);
 
     & + li {
       margin-top: 16px;
@@ -119,28 +119,18 @@
 
     &::before {
       position: absolute;
-      top: 2px;
       left: 0;
-      display: grid;
-      place-items: center;
-      width: 20px;
-      height: 20px;
-      font-size: 11px;
       font-weight: 700;
-      color: var(--accent-400);
-      content: '✓';
-      background: rgba(45, 212, 191, 0.16);
-      border-radius: 50%;
+      color: var(--exl-orange);
+      content: '\203A';
     }
   }
 }
 
-.login__brand-footer {
-  position: relative;
-  z-index: 1;
+.login__copyright {
   margin: 0;
-  font-size: 13px;
-  color: rgba(226, 236, 255, 0.6);
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* ---------- Form panel ---------- */
@@ -148,10 +138,10 @@
 .login__panel {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 28px;
   align-items: center;
   justify-content: center;
-  padding: 48px 32px 28px;
+  padding: 48px 32px;
   background: var(--surface);
 }
 
@@ -160,71 +150,123 @@
   max-width: 400px;
 }
 
-.login__mobile-mark {
+.login__wordmark--compact {
   display: none;
-  margin-bottom: 28px;
-  color: var(--ink-900);
+  margin-bottom: 32px;
+  color: var(--navy-900);
 }
 
 .login__header {
-  margin-bottom: 28px;
+  margin-bottom: 32px;
+}
 
-  h1 {
-    margin: 0 0 8px;
-    font-size: 28px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
+.login__kicker {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--ink-500);
+  text-transform: uppercase;
+}
 
-  p {
-    margin: 0;
-    font-size: 15px;
-    color: var(--ink-500);
-  }
+.login__header h1 {
+  margin: 16px 0 0;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.login__subtitle {
+  margin: 6px 0 0;
+  font-size: 16px;
+  color: var(--ink-500);
 }
 
 .login__alert {
   margin-bottom: 20px;
 }
 
-.login__form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.login__sso-icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
 }
 
 .login__divider {
-  margin: 22px 0;
+  margin: 16px 0 26px;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login__options {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login__forgot {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.login__notice {
+  margin: 18px 0 0;
 }
 
 .login__footnote {
-  margin: 24px 0 0;
-  font-size: 13px;
-  line-height: 1.6;
+  margin: 26px 0 0;
+  font-size: 15px;
   color: var(--ink-500);
+  text-align: center;
 }
 
 .login__legal {
   display: flex;
-  gap: 20px;
+  gap: 22px;
   align-items: center;
-  font-size: 12px;
+  font-size: 12.5px;
   color: var(--ink-400);
 
   a {
-    color: var(--ink-500);
+    color: var(--ink-400);
+
+    &:hover {
+      color: var(--ink-600);
+    }
+
+    /* Middot separators that stay out of the link's hit area and underline. */
+    & + a::before {
+      position: absolute;
+      left: -13px;
+      color: var(--ink-400);
+      content: '·';
+    }
+  }
+
+  a + a {
+    position: relative;
   }
 }
 
 /* ---------- Responsive ---------- */
 
-@media (max-width: 1024px) {
+@media (max-width: 1240px) {
   .login__brand {
-    padding: 40px;
+    padding: 44px 40px 40px;
+  }
+
+  .login__lede {
+    font-size: 18px;
   }
 }
 
-@media (max-width: 880px) {
+@media (max-width: 900px) {
   .login {
     grid-template-columns: 1fr;
   }
@@ -233,12 +275,16 @@
     display: none;
   }
 
-  .login__mobile-mark {
-    display: flex;
+  .login__wordmark--compact {
+    display: block;
   }
 
   .login__panel {
     justify-content: flex-start;
-    padding: 40px 24px 24px;
+    padding: 40px 24px;
+  }
+
+  .login__header h1 {
+    font-size: 34px;
   }
 }

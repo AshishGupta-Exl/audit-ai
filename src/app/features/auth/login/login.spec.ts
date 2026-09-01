@@ -59,6 +59,18 @@ describe('Login', () => {
     expect(query('#password')).toBeTruthy();
   });
 
+  it('offers single sign-on alongside the email form', () => {
+    const sso = query<HTMLAnchorElement>('.login__sso');
+
+    expect(sso.textContent).toContain('Continue with Okta SSO');
+    expect(sso.getAttribute('href')).toBe('/sso');
+    expect(query('.login__divider').textContent).toContain('or sign in with email');
+  });
+
+  it('tells the user a one-time passcode follows', () => {
+    expect(query('.login__notice').textContent).toContain('one-time passcode');
+  });
+
   it('does not call the gateway while the form is invalid', () => {
     spyOn(gateway, 'authenticate').and.callThrough();
 
@@ -95,13 +107,15 @@ describe('Login', () => {
   });
 
   it('toggles password visibility', () => {
-    const toggle = query<HTMLButtonElement>('.field__toggle');
+    const toggle = query<HTMLButtonElement>('.field__reveal');
     expect(query<HTMLInputElement>('#password').type).toBe('password');
+    expect(toggle.textContent?.trim()).toBe('Show');
 
     toggle.click();
     fixture.detectChanges();
 
     expect(query<HTMLInputElement>('#password').type).toBe('text');
+    expect(toggle.textContent?.trim()).toBe('Hide');
     expect(toggle.getAttribute('aria-label')).toBe('Hide password');
   });
 

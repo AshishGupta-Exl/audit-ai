@@ -1,37 +1,37 @@
 <div class="login">
-  <section class="login__brand" aria-hidden="true">
-    <div class="login__brand-mark">
-      <span class="login__brand-glyph">A</span>
-      <span class="login__brand-name">Audit<strong>AI</strong></span>
-    </div>
+  <section class="login__brand">
+    <p class="login__wordmark">EXL</p>
 
     <div class="login__brand-copy">
-      <h2>Claim audits, done in minutes.</h2>
-      <p>
-        Automated evidence checks, migration validation and audit trails for every claim your teams
-        touch.
+      <p class="login__eyebrow">Secure access</p>
+
+      <p class="login__headline">Sign in to the EXL platform</p>
+
+      <p class="login__lede">
+        One account for data, AI and operations workspaces — with the security your enterprise
+        expects.
       </p>
 
-      <ul class="login__highlights">
-        <li>Continuous audit coverage across policies and claims</li>
-        <li>Migration reconciliation with line-level traceability</li>
-        <li>Exception queues routed to the right reviewer</li>
+      <ul class="login__assurances">
+        <li>Single sign-on across every EXL workspace</li>
+        <li>Multi-factor authentication on every session</li>
+        <li>SOC 2 Type II · ISO 27001 certified</li>
       </ul>
     </div>
 
-    <p class="login__brand-footer">Trusted by claims and compliance teams.</p>
+    <p class="login__copyright">
+      &copy; {{ currentYear }} ExlService Holdings, Inc. All rights reserved.
+    </p>
   </section>
 
   <section class="login__panel">
     <div class="login__card">
-      <div class="login__mobile-mark">
-        <span class="login__brand-glyph">A</span>
-        <span class="login__brand-name">Audit<strong>AI</strong></span>
-      </div>
+      <p class="login__wordmark login__wordmark--compact">EXL</p>
 
       <header class="login__header">
+        <p class="login__kicker">Welcome back</p>
         <h1>Sign in</h1>
-        <p>Use your Audit AI account to continue.</p>
+        <p class="login__subtitle">Use your EXL work account to continue.</p>
       </header>
 
       @if (errorMessage()) {
@@ -45,26 +45,40 @@
         </div>
       }
 
+      <a class="button button--sso button--block login__sso" routerLink="/sso">
+        <svg class="login__sso-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+          <circle cx="10" cy="10" r="10" fill="var(--navy-900)" />
+          <circle cx="10" cy="10" r="4.1" fill="none" stroke="#fff" stroke-width="2.4" />
+        </svg>
+        <span>Continue with Okta SSO</span>
+      </a>
+
+      <div class="divider login__divider"><span>or sign in with email</span></div>
+
       <form class="login__form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
         <div class="field">
-          <label for="email">Work email</label>
+          <div class="field__label-row">
+            <label for="email">Work email</label>
+          </div>
+
           <input
             id="email"
             type="email"
             formControlName="email"
             autocomplete="username"
             inputmode="email"
-            placeholder="name@company.com"
+            placeholder="you@exlservice.com"
             [class.field__input--invalid]="email.touched && email.invalid"
             [attr.aria-invalid]="email.touched && email.invalid"
             [attr.aria-describedby]="email.touched && email.invalid ? 'email-error' : null"
           />
+
           @if (email.touched && email.invalid) {
             <p class="field__error" id="email-error">
               @if (email.hasError('required')) {
                 Enter your work email address.
               } @else {
-                Enter a valid email address, for example name&#64;company.com.
+                Enter a valid email address, for example you&#64;exlservice.com.
               }
             </p>
           }
@@ -73,44 +87,27 @@
         <div class="field">
           <div class="field__label-row">
             <label for="password">Password</label>
-            <a routerLink="/forgot-password">Forgot password?</a>
-          </div>
-
-          <div class="field__control">
-            <input
-              id="password"
-              [type]="passwordVisible() ? 'text' : 'password'"
-              formControlName="password"
-              autocomplete="current-password"
-              placeholder="Enter your password"
-              [class.field__input--invalid]="password.touched && password.invalid"
-              [attr.aria-invalid]="password.touched && password.invalid"
-              [attr.aria-describedby]="
-                password.touched && password.invalid ? 'password-error' : null
-              "
-            />
             <button
               type="button"
-              class="field__toggle"
+              class="field__reveal"
               (click)="togglePasswordVisibility()"
               [attr.aria-label]="passwordVisible() ? 'Hide password' : 'Show password'"
               [attr.aria-pressed]="passwordVisible()"
             >
-              @if (passwordVisible()) {
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path
-                    d="M2.8 3.8 3.8 2.8l17.4 17.4-1 1-3.2-3.2A10.6 10.6 0 0 1 12 19c-4.3 0-8-2.6-9.8-7a13 13 0 0 1 3.6-4.7L2.8 3.8Zm4.1 4.1A11.3 11.3 0 0 0 3.9 12c1.7 3.6 4.7 5.5 8.1 5.5a9 9 0 0 0 3.4-.66l-1.8-1.8a3.5 3.5 0 0 1-4.7-4.7L6.9 7.9Zm5.1-3.4c4.3 0 8 2.6 9.8 7a13.3 13.3 0 0 1-2.6 3.8l-1.5-1.5A11 11 0 0 0 20.1 12c-1.7-3.6-4.7-5.5-8.1-5.5-.6 0-1.2.06-1.8.18L8.9 5.15A11 11 0 0 1 12 4.5Z"
-                  />
-                </svg>
-              } @else {
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path
-                    d="M12 5c4.3 0 8 2.6 9.8 7-1.8 4.4-5.5 7-9.8 7s-8-2.6-9.8-7C4 7.6 7.7 5 12 5Zm0 1.5c-3.4 0-6.4 1.9-8.1 5.5 1.7 3.6 4.7 5.5 8.1 5.5s6.4-1.9 8.1-5.5C18.4 8.4 15.4 6.5 12 6.5Zm0 2a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Zm0 1.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"
-                  />
-                </svg>
-              }
+              {{ passwordVisible() ? 'Hide' : 'Show' }}
             </button>
           </div>
+
+          <input
+            id="password"
+            [type]="passwordVisible() ? 'text' : 'password'"
+            formControlName="password"
+            autocomplete="current-password"
+            placeholder="••••••••"
+            [class.field__input--invalid]="password.touched && password.invalid"
+            [attr.aria-invalid]="password.touched && password.invalid"
+            [attr.aria-describedby]="password.touched && password.invalid ? 'password-error' : null"
+          />
 
           @if (password.touched && password.invalid) {
             <p class="field__error" id="password-error">
@@ -123,15 +120,19 @@
           }
         </div>
 
-        <label class="checkbox">
-          <input type="checkbox" formControlName="rememberMe" />
-          <span class="checkbox__box" aria-hidden="true">
-            <svg viewBox="0 0 16 16" focusable="false">
-              <path d="M6.2 11.4 3 8.2l1.1-1.1 2.1 2.1 5.6-5.6L13 4.7l-6.8 6.7Z" />
-            </svg>
-          </span>
-          <span class="checkbox__label">Keep me signed in</span>
-        </label>
+        <div class="login__options">
+          <label class="checkbox">
+            <input type="checkbox" formControlName="rememberMe" />
+            <span class="checkbox__box" aria-hidden="true">
+              <svg viewBox="0 0 16 16" focusable="false">
+                <path d="M6.2 11.4 3 8.2l1.1-1.1 2.1 2.1 5.6-5.6L13 4.7l-6.8 6.7Z" />
+              </svg>
+            </span>
+            <span class="checkbox__label">Keep me signed in</span>
+          </label>
+
+          <a class="login__forgot" routerLink="/forgot-password">Forgot password?</a>
+        </div>
 
         <button
           type="submit"
@@ -143,31 +144,30 @@
             <span>Signing in…</span>
           } @else {
             <span>Sign in</span>
+            <svg class="button__chevron" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+              <path d="M3.5 1.5 8 6l-4.5 4.5" />
+            </svg>
           }
         </button>
       </form>
 
-      <div class="divider login__divider"><span>or</span></div>
-
-      <button type="button" class="button button--ghost button--block">
-        <svg class="button__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path
-            d="M12 2 4 5.4v6.1c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5V5.4L12 2Zm-1.2 13.6-3.3-3.3 1.3-1.3 2 2 4.6-4.6 1.3 1.3-5.9 5.9Z"
-          />
+      <p class="alert alert--info login__notice">
+        <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+          <path d="M10 2.4 16.4 4.7v4.9c0 3.5-2.6 6.6-6.4 8-3.8-1.4-6.4-4.5-6.4-8V4.7L10 2.4Z" />
+          <path d="m7.3 10.1 1.9 1.9 3.5-3.9" />
         </svg>
-        <span>Continue with single sign-on</span>
-      </button>
+        <span>A one-time passcode will be sent to your device to verify this sign-in.</span>
+      </p>
 
       <p class="login__footnote">
-        Need an account? <a routerLink="/request-access">Request access</a> from your Audit AI
-        administrator.
+        Don't have access yet? <a routerLink="/request-access">Request an account</a>
       </p>
     </div>
 
     <footer class="login__legal">
-      <span>&copy; {{ currentYear }} Audit AI</span>
       <a routerLink="/privacy">Privacy</a>
       <a routerLink="/terms">Terms</a>
+      <a routerLink="/support">Support</a>
     </footer>
   </section>
 </div>

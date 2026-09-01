@@ -3,21 +3,22 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: 7px;
 
   label {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
-    color: var(--ink-700);
+    color: var(--ink-900);
   }
 
   input {
     width: 100%;
-    padding: 12px 14px;
-    font-size: 15px;
+    height: 44px;
+    padding: 0 14px;
+    font-family: inherit;
+    font-size: 16px;
     color: var(--ink-900);
     background: var(--surface);
-    border: 1px solid var(--ink-200);
+    border: 1px solid var(--ink-300);
     border-radius: var(--radius-sm);
     transition:
       border-color 0.15s ease,
@@ -33,7 +34,7 @@
 
     &:focus {
       outline: none;
-      border-color: var(--brand-500);
+      border-color: var(--link-700);
       box-shadow: var(--focus-ring);
     }
 
@@ -44,15 +45,15 @@
     }
 
     &.field__input--invalid {
-      border-color: var(--danger-500);
+      border-color: var(--danger-600);
 
       &:hover:not(:disabled) {
-        border-color: var(--danger-600);
+        border-color: var(--danger-700);
       }
 
       &:focus {
-        border-color: var(--danger-500);
-        box-shadow: 0 0 0 3px rgba(224, 56, 79, 0.22);
+        border-color: var(--danger-600);
+        box-shadow: 0 0 0 3px rgba(198, 45, 28, 0.2);
       }
     }
   }
@@ -63,59 +64,35 @@
   gap: 12px;
   align-items: baseline;
   justify-content: space-between;
-
-  a {
-    font-size: 13px;
-    font-weight: 500;
-  }
+  margin-bottom: 6px;
 }
 
-.field__control {
-  position: relative;
-  display: flex;
-
-  input {
-    padding-right: 46px;
-  }
-}
-
-.field__toggle {
-  position: absolute;
-  top: 50%;
-  right: 6px;
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
+/* Text button that swaps a password between masked and plain text. */
+.field__reveal {
   padding: 0;
-  color: var(--ink-500);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--link-700);
   background: none;
   border: 0;
-  border-radius: 6px;
-  transform: translateY(-50%);
   cursor: pointer;
 
-  svg {
-    width: 20px;
-    height: 20px;
-    fill: currentcolor;
-  }
-
   &:hover {
-    color: var(--ink-700);
-    background: var(--ink-100);
+    color: var(--link-600);
+    text-decoration: underline;
   }
 
   &:focus-visible {
     outline: none;
+    border-radius: 2px;
     box-shadow: var(--focus-ring);
   }
 }
 
 .field__error {
-  margin: 0;
-  font-size: 12.5px;
-  color: var(--danger-600);
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--danger-700);
 }
 
 .checkbox {
@@ -133,12 +110,12 @@
 
   input:checked + .checkbox__box {
     color: #fff;
-    background: var(--brand-500);
-    border-color: var(--brand-500);
+    background: var(--exl-orange);
+    border-color: var(--exl-orange);
   }
 
   input:focus-visible + .checkbox__box {
-    box-shadow: var(--focus-ring);
+    box-shadow: var(--focus-ring-orange);
   }
 
   input:checked + .checkbox__box svg {
@@ -148,27 +125,28 @@
 
 .checkbox__box {
   display: grid;
+  flex: none;
   place-items: center;
   width: 18px;
   height: 18px;
   background: var(--surface);
-  border: 1px solid var(--ink-200);
-  border-radius: 5px;
+  border: 1px solid var(--ink-300);
+  border-radius: 2px;
   transition:
     background 0.15s ease,
     border-color 0.15s ease;
 
   svg {
-    width: 14px;
-    height: 14px;
+    width: 13px;
+    height: 13px;
     fill: currentcolor;
     opacity: 0;
   }
 }
 
 .checkbox__label {
-  font-size: 14px;
-  color: var(--ink-700);
+  font-size: 15px;
+  color: var(--ink-900);
 }
 
 .button {
@@ -176,9 +154,10 @@
   gap: 10px;
   align-items: center;
   justify-content: center;
-  min-height: 46px;
+  min-height: 44px;
   padding: 0 18px;
-  font-size: 15px;
+  font-family: inherit;
+  font-size: 16px;
   font-weight: 600;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
@@ -195,8 +174,12 @@
 
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.75;
+    opacity: 0.72;
   }
+}
+
+a.button:hover {
+  text-decoration: none;
 }
 
 .button--block {
@@ -204,30 +187,54 @@
 }
 
 .button--primary {
+  min-height: 40px;
   color: #fff;
-  background: var(--brand-500);
-  box-shadow: var(--shadow-sm);
+  background: var(--exl-orange);
 
   &:hover:not(:disabled) {
-    background: var(--brand-600);
+    background: var(--exl-orange-600);
+  }
+
+  &:active:not(:disabled) {
+    background: var(--exl-orange-700);
+  }
+
+  &:focus-visible {
+    box-shadow: var(--focus-ring-orange);
+  }
+}
+
+/* Federated sign-in entry point: quieter than the primary action. */
+.button--sso {
+  color: var(--ink-900);
+  background: var(--ink-50);
+  border-color: var(--ink-300);
+
+  &:hover:not(:disabled) {
+    background: var(--ink-100);
+    border-color: var(--ink-400);
   }
 }
 
 .button--ghost {
-  color: var(--ink-700);
+  color: var(--ink-900);
   background: var(--surface);
-  border-color: var(--ink-200);
+  border-color: var(--ink-300);
 
   &:hover:not(:disabled) {
-    background: var(--brand-50);
-    border-color: var(--brand-100);
+    background: var(--ink-50);
+    border-color: var(--ink-400);
   }
 }
 
-.button__icon {
-  width: 20px;
-  height: 20px;
-  fill: var(--brand-500);
+.button__chevron {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .spinner {
@@ -256,35 +263,49 @@
   gap: 10px;
   align-items: flex-start;
   padding: 12px 14px;
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.5;
+  border: 1px solid transparent;
   border-radius: var(--radius-sm);
 
   svg {
     flex: none;
-    width: 18px;
-    height: 18px;
-    margin-top: 1px;
+    width: 17px;
+    height: 17px;
+    margin-top: 2px;
   }
 }
 
 .alert--danger {
-  color: var(--danger-600);
+  color: var(--danger-700);
   background: var(--danger-50);
-  border: 1px solid rgba(224, 56, 79, 0.24);
+  border-color: rgba(198, 45, 28, 0.24);
 
   svg {
-    fill: var(--danger-500);
+    fill: var(--danger-600);
+  }
+}
+
+.alert--info {
+  padding: 13px 15px;
+  color: var(--ink-600);
+  background: var(--info-50);
+  border-color: var(--info-200);
+
+  svg {
+    fill: none;
+    stroke: var(--link-700);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 }
 
 .divider {
   display: flex;
-  gap: 12px;
+  gap: 15px;
   align-items: center;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 14px;
   color: var(--ink-400);
 
   &::before,

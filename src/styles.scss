@@ -1,47 +1,60 @@
-/* Global design tokens and base styles for Audit AI. */
+/* Global design tokens and base styles for the EXL platform front end. */
 
 @use 'styles/components';
 
 :root {
-  --brand-900: #0b1f3a;
-  --brand-800: #10294c;
-  --brand-700: #16365f;
-  --brand-600: #1d4c8f;
-  --brand-500: #2563eb;
-  --brand-400: #4c85f5;
-  --brand-100: #dbe7fe;
-  --brand-50: #f2f6ff;
+  /* Brand */
+  --exl-orange: #fb4e0b;
+  --exl-orange-600: #e2440a;
+  --exl-orange-700: #c93a07;
 
-  --accent-500: #0ea5a4;
-  --accent-400: #2dd4bf;
+  /* Brand panel navy */
+  --navy-900: #0c2a3a;
+  --navy-800: #123449;
+  --navy-700: #17384b;
+  --navy-600: #1f4156;
 
-  --ink-900: #0f172a;
-  --ink-700: #33415c;
-  --ink-500: #64748b;
-  --ink-400: #94a3b8;
-  --ink-200: #e2e8f0;
-  --ink-100: #eef2f7;
+  /* Neutrals */
+  --ink-900: #2e3643;
+  --ink-700: #48505c;
+  --ink-600: #5c6674;
+  --ink-500: #6d727b;
+  --ink-400: #9a9fa7;
+  --ink-300: #c6c9ce;
+  --ink-200: #dddfe2;
+  --ink-100: #f2f3f5;
+  --ink-50: #f9fafa;
   --surface: #ffffff;
-  --canvas: #f6f8fc;
+  --canvas: #f6f7f8;
 
-  --danger-600: #c8283c;
-  --danger-500: #e0384f;
-  --danger-50: #fdecee;
-  --success-600: #12855f;
-  --success-50: #e7f7f0;
+  /* Accent used for links and secondary actions */
+  --link-700: #005071;
+  --link-600: #00658d;
 
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  --info-50: #e6f6fb;
+  --info-200: #cde9f2;
+
+  --danger-700: #a32617;
+  --danger-600: #c62d1c;
+  --danger-50: #fdeeeb;
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
   --radius-pill: 999px;
 
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 24px 60px rgba(11, 31, 58, 0.16);
+  --shadow-sm: 0 1px 2px rgba(12, 42, 58, 0.06);
+  --shadow-md: 0 10px 28px rgba(12, 42, 58, 0.08);
 
-  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-sans:
+    'Fira Sans Condensed', 'Fira Sans', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue',
+    Arial, sans-serif;
+  --font-display:
+    'Fira Sans Extra Condensed', 'Fira Sans Condensed', 'Fira Sans', 'Segoe UI', system-ui,
+    sans-serif;
 
-  --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.28);
+  --focus-ring: 0 0 0 3px rgba(0, 80, 113, 0.24);
+  --focus-ring-orange: 0 0 0 3px rgba(251, 78, 11, 0.3);
 }
 
 * {
@@ -63,16 +76,17 @@ body {
 }
 
 a {
-  color: var(--brand-500);
+  color: var(--link-700);
   text-decoration: none;
 
   &:hover {
+    color: var(--link-600);
     text-decoration: underline;
   }
 
   &:focus-visible {
     outline: none;
-    border-radius: 4px;
+    border-radius: 2px;
     box-shadow: var(--focus-ring);
   }
 }
