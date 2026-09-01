@@ -7,8 +7,8 @@ import { AuthService } from './auth.service';
 import { InMemoryAuthGateway } from './in-memory-auth.gateway';
 
 const VALID: LoginCredentials = {
-  email: 'auditor@auditai.com',
-  password: 'Audit@2026',
+  email: 'a.analyst@exlservice.com',
+  password: 'Exl@2026!',
   rememberMe: false,
 };
 
@@ -43,14 +43,14 @@ describe('AuthService', () => {
 
     const result = await firstValueFrom(service.login(VALID));
 
-    expect(result.user.email).toBe('auditor@auditai.com');
+    expect(result.user.email).toBe('a.analyst@exlservice.com');
     expect(service.isAuthenticated()).toBeTrue();
   });
 
   it('accepts a differently cased email', async () => {
     const service = createService();
 
-    await firstValueFrom(service.login({ ...VALID, email: '  Auditor@AuditAI.com ' }));
+    await firstValueFrom(service.login({ ...VALID, email: '  A.Analyst@ExlService.com ' }));
 
     expect(service.isAuthenticated()).toBeTrue();
   });
@@ -67,7 +67,7 @@ describe('AuthService', () => {
   it('reports a locked account distinctly', async () => {
     const service = createService();
 
-    const error = await captureError(service.login({ ...VALID, email: 'locked@auditai.com' }));
+    const error = await captureError(service.login({ ...VALID, email: 'locked@exlservice.com' }));
 
     expect(error.code).toBe('account_locked');
   });
@@ -95,7 +95,7 @@ describe('AuthService', () => {
 
     TestBed.resetTestingModule();
 
-    expect(createService().user()?.email).toBe('auditor@auditai.com');
+    expect(createService().user()?.email).toBe('a.analyst@exlservice.com');
   });
 
   it('discards a corrupt persisted session', () => {

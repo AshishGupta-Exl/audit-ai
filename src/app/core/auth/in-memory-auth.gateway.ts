@@ -14,14 +14,14 @@ interface SeedUser {
 
 const SEED_USERS: SeedUser[] = [
   {
-    email: 'auditor@auditai.com',
-    password: 'Audit@2026',
-    displayName: 'Sample Auditor',
+    email: 'a.analyst@exlservice.com',
+    password: 'Exl@2026!',
+    displayName: 'Sample Analyst',
     roles: ['auditor'],
   },
   {
-    email: 'locked@auditai.com',
-    password: 'Audit@2026',
+    email: 'locked@exlservice.com',
+    password: 'Exl@2026!',
     displayName: 'Locked Account',
     roles: ['auditor'],
     locked: true,

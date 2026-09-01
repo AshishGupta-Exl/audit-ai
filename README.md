@@ -1,7 +1,7 @@
 # audit-ai
 
-Angular front end for Audit AI. This repository currently contains the sign-in
-experience and the app shell it plugs into.
+Angular front end for the EXL platform. This repository currently contains the
+sign-in experience and the app shell it plugs into.
 
 ## Requirements
 
@@ -33,10 +33,10 @@ The dev server runs on http://localhost:4200 and redirects to `/login`.
 Authentication is not yet wired to a backend, so the login screen runs against
 an in-memory gateway with two seeded accounts:
 
-| Email                  | Password     | Behaviour                     |
-| ---------------------- | ------------ | ----------------------------- |
-| `auditor@auditai.com`  | `Audit@2026` | Signs in successfully         |
-| `locked@auditai.com`   | `Audit@2026` | Returns a locked-account error |
+| Email                      | Password    | Behaviour                      |
+| -------------------------- | ----------- | ------------------------------ |
+| `a.analyst@exlservice.com` | `Exl@2026!` | Signs in successfully          |
+| `locked@exlservice.com`    | `Exl@2026!` | Returns a locked-account error |
 
 Any other email or password returns an invalid-credentials error.
 
