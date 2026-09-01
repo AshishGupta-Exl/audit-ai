@@ -8,7 +8,7 @@ import { Login } from './login';
 
 class StubAuthGateway implements AuthGateway {
   response: Observable<LoginResult> = of({
-    user: { id: '1', email: 'auditor@auditai.com', displayName: 'Sample Auditor', roles: [] },
+    user: { id: '1', email: 'a.gupta@exlservice.com', displayName: 'Sample Auditor', roles: [] },
     token: 'token',
   });
   lastCredentials: LoginCredentials | null = null;
@@ -71,6 +71,10 @@ describe('Login', () => {
     expect(query('.login__notice').textContent).toContain('one-time passcode');
   });
 
+  it('keeps the user signed in by default', () => {
+    expect(query<HTMLInputElement>('.checkbox input').checked).toBeTrue();
+  });
+
   it('does not call the gateway while the form is invalid', () => {
     spyOn(gateway, 'authenticate').and.callThrough();
 
@@ -99,7 +103,7 @@ describe('Login', () => {
   });
 
   it('rejects a password shorter than eight characters', () => {
-    fillForm('auditor@auditai.com', 'short');
+    fillForm('a.gupta@exlservice.com', 'short');
     query<HTMLFormElement>('form').dispatchEvent(new Event('submit'));
     fixture.detectChanges();
 
@@ -122,15 +126,15 @@ describe('Login', () => {
   it('submits the entered credentials and navigates to the dashboard', fakeAsync(() => {
     const navigate = spyOn(router, 'navigateByUrl').and.resolveTo(true);
 
-    fillForm('auditor@auditai.com', 'Audit@2026');
+    fillForm('a.gupta@exlservice.com', 'Audit@2026');
     query<HTMLFormElement>('form').dispatchEvent(new Event('submit'));
     tick();
     fixture.detectChanges();
 
     expect(gateway.lastCredentials).toEqual({
-      email: 'auditor@auditai.com',
+      email: 'a.gupta@exlservice.com',
       password: 'Audit@2026',
-      rememberMe: false,
+      rememberMe: true,
     });
     expect(navigate).toHaveBeenCalledWith('/dashboard');
   }));
@@ -139,7 +143,7 @@ describe('Login', () => {
     const navigate = spyOn(router, 'navigateByUrl').and.resolveTo(true);
     gateway.response = throwError(() => new AuthError('invalid_credentials', 'Bad credentials.'));
 
-    fillForm('auditor@auditai.com', 'Audit@2026');
+    fillForm('a.gupta@exlservice.com', 'Audit@2026');
     query<HTMLFormElement>('form').dispatchEvent(new Event('submit'));
     tick();
     fixture.detectChanges();
@@ -151,7 +155,7 @@ describe('Login', () => {
   it('falls back to a generic message for unexpected failures', fakeAsync(() => {
     gateway.response = throwError(() => new Error('boom'));
 
-    fillForm('auditor@auditai.com', 'Audit@2026');
+    fillForm('a.gupta@exlservice.com', 'Audit@2026');
     query<HTMLFormElement>('form').dispatchEvent(new Event('submit'));
     tick();
     fixture.detectChanges();
@@ -162,7 +166,7 @@ describe('Login', () => {
   it('re-enables the form after a failed attempt', fakeAsync(() => {
     gateway.response = throwError(() => new AuthError('account_locked', 'Locked.'));
 
-    fillForm('auditor@auditai.com', 'Audit@2026');
+    fillForm('a.gupta@exlservice.com', 'Audit@2026');
     query<HTMLFormElement>('form').dispatchEvent(new Event('submit'));
     tick();
     fixture.detectChanges();

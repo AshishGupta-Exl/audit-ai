@@ -20,7 +20,9 @@
   padding: 56px 48px 48px;
   overflow: hidden;
   color: #fff;
-  background: linear-gradient(178deg, #21445a 0%, #17405a 55%, #0e4057 100%);
+  background:
+    linear-gradient(90deg, rgba(34, 58, 74, 0) 0%, rgba(34, 58, 74, 0.55) 100%),
+    linear-gradient(180deg, #1f4156 0%, #164157 50%, #0e4057 100%);
   border-left: 3px solid var(--exl-orange);
 
   /* Faint dot field, strongest towards the top right of the panel. */
@@ -43,7 +45,7 @@
     width: clamp(300px, 32vw, 604px);
     aspect-ratio: 1.1547;
     content: '';
-    background: linear-gradient(155deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.135));
     clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
     transform: translateY(-50%);
   }
@@ -56,9 +58,9 @@
 
 .login__wordmark {
   margin: 0;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.2em;
 }
 
 .login__brand-copy {
@@ -86,23 +88,23 @@
 
 .login__headline {
   max-width: 6em;
-  margin: 14px 0 0;
+  margin: 24px 0 0;
   font-family: var(--font-display);
-  font-size: clamp(38px, 3.3vw, 62px);
+  font-size: clamp(38px, 3.35vw, 63px);
   font-weight: 700;
-  line-height: 1.03;
+  line-height: 1.04;
   letter-spacing: -0.005em;
 }
 
 .login__lede {
-  margin: 22px 0 0;
+  margin: 19px 0 0;
   font-size: 20px;
   line-height: 1.42;
   color: rgba(255, 255, 255, 0.66);
 }
 
 .login__assurances {
-  margin: 36px 0 0;
+  margin: 41px 0 0;
   padding: 0;
   list-style: none;
 
@@ -129,7 +131,7 @@
 
 .login__copyright {
   margin: 0;
-  font-size: 12.5px;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -178,7 +180,7 @@
 }
 
 .login__subtitle {
-  margin: 6px 0 0;
+  margin: 11px 0 0;
   font-size: 16px;
   color: var(--ink-500);
 }
@@ -194,13 +196,13 @@
 }
 
 .login__divider {
-  margin: 16px 0 26px;
+  margin: 23px 0 26px;
 }
 
 .login__form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
 }
 
 .login__options {
@@ -228,7 +230,7 @@
 
 .login__legal {
   display: flex;
-  gap: 22px;
+  gap: 34px;
   align-items: center;
   font-size: 12.5px;
   color: var(--ink-400);
@@ -243,7 +245,7 @@
     /* Middot separators that stay out of the link's hit area and underline. */
     & + a::before {
       position: absolute;
-      left: -13px;
+      left: -18px;
       color: var(--ink-400);
       content: '·';
     }

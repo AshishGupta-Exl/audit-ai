@@ -20,7 +20,7 @@ export class Login {
   protected readonly form = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]],
-    rememberMe: [false],
+    rememberMe: [true],
   });
 
   protected readonly submitting = signal(false);
