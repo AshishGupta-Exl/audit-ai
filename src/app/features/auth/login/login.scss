@@ -27,25 +27,24 @@
     var(--brand-600) 100%
   );
 
+  /* Both glows are square boxes with the gradient fully faded before the box
+     edge, otherwise the clipped edge shows up as a hard seam. */
   &::before {
     position: absolute;
-    inset: -180px -60px auto -160px;
-    height: 420px;
+    inset: -280px auto auto -240px;
+    width: 760px;
+    height: 760px;
     content: '';
-    background: radial-gradient(
-      circle at 30% 40%,
-      rgba(76, 133, 245, 0.38) 0%,
-      rgba(76, 133, 245, 0) 70%
-    );
+    background: radial-gradient(circle, rgba(76, 133, 245, 0.42) 0%, rgba(76, 133, 245, 0) 62%);
   }
 
   &::after {
     position: absolute;
-    inset: auto -140px -220px auto;
-    width: 520px;
-    height: 520px;
+    inset: auto -200px -280px auto;
+    width: 680px;
+    height: 680px;
     content: '';
-    background: radial-gradient(circle, rgba(45, 212, 191, 0.34) 0%, rgba(45, 212, 191, 0) 68%);
+    background: radial-gradient(circle, rgba(45, 212, 191, 0.32) 0%, rgba(45, 212, 191, 0) 62%);
   }
 }
 

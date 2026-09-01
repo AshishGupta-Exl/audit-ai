@@ -42,6 +42,19 @@
       background: var(--ink-100);
       cursor: not-allowed;
     }
+
+    &.field__input--invalid {
+      border-color: var(--danger-500);
+
+      &:hover:not(:disabled) {
+        border-color: var(--danger-600);
+      }
+
+      &:focus {
+        border-color: var(--danger-500);
+        box-shadow: 0 0 0 3px rgba(224, 56, 79, 0.22);
+      }
+    }
   }
 }
 
@@ -96,15 +109,6 @@
   &:focus-visible {
     outline: none;
     box-shadow: var(--focus-ring);
-  }
-}
-
-.field__input--invalid {
-  border-color: var(--danger-500);
-
-  &:focus {
-    border-color: var(--danger-500);
-    box-shadow: 0 0 0 3px rgba(224, 56, 79, 0.22);
   }
 }
 
